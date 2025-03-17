@@ -1,0 +1,28 @@
+body {
+    background-color: rgba(186, 183, 183, 0.873);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 40%;
+    padding: 3%;
+    background-color: white;
+    border-radius: 10px;
+}
+
+form {
+    width: 100%;
+}
+
+@media(max-width:789px) {
+    .container-wrapper {
+        width: 90%;
+    }
+}

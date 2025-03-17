@@ -1,0 +1,82 @@
+body {
+    position: relative;
+    background: linear-gradient(rgba(210, 208, 208, 0.5), rgba(0, 0, 0, 0.5)),
+                url("/images/mainBackgroundImage.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0; /* Ensures no extra spacing */
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with 50% opacity */
+    color: white;
+}
+.logo {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    background-color: white;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+.profile-icone {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    i {
+        font-size: 30px;
+    }
+}
+
+.redirectBox {
+    height: 90vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    a {
+        text-decoration: none;
+        /* color: aliceblue; */
+    }
+
+    button {
+        width: 200px;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10%;
+        font-size: larger;
+        font-weight: 900;
+    }
+    img{
+        width: 100%;
+        height: 100%;
+    }
+}
+
+@media(max-width:789px) {
+    .redirectBox {
+        display: flex;
+        flex-direction: column;
+
+        button {
+            width: 150px;
+            height: 150px;
+        }
+    }
+}

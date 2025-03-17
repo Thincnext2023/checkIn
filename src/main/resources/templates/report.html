@@ -1,0 +1,129 @@
+<!-- src/main/resources/templates/home.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/checkOut&Report.css">
+</head>
+
+<body>
+<div class="">
+  <div class="header container-fluid">
+    <div style="display: flex;">
+      <a href="/display/main" class="me-2" style="display:flex ;justify-content: center;align-items: center;"><button class="btn btn-warning"><i class="fa-solid fa-arrow-left"></i></button></a><div> Welcome <h6><b>[[${userDetails.getEmail}]]</b></h6></div>
+    </div>
+    <div class="logo">
+      <img src="/images/logo.png" alt="">
+    </div>
+    <div class="profile-icone btn btn-light text-dark "  id="dropdownMenuButton" data-bs-toggle="dropdown">
+      <i class="fa-regular fa-user"></i>
+    </div>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown">
+      <!--            <li><a href="/display/myProfile" class="dropdown-item text-danger">My Profile</a></li>-->
+      <!--            alt way to send id along the url-->
+      <li><a th:href="@{/display/myProfile/{id}(id=${userDetails.getId})}" class="dropdown-item">My Profile</a></li>
+      <li><a href="/logout" class="dropdown-item text-danger">Logout</a></li>
+    </ul>
+  </div>
+
+  <div class="container">
+    <!-- 🔍 Search Bar -->
+    <div class="searchBar mb-3 mt-3 d-flex justify-content-between align-items-center flex-wrap">
+      <div class="mb-2 mt-3 col-3">
+        <label  class="form-label">Search</label>
+        <input type="text" id="searchInput" style="width: 100%;" class="form-control"
+               placeholder="Search by Id, Name, Contact, Purpose, or Whom To Meet" onkeyup="searchTable()">
+      </div>
+      <div class="mb-2 mt-3 col-3">
+        <label  class="form-label">From</label>
+        <input type="date" id="searchFrom" style="width: 100%;" class="form-control" onchange="searchByDate()">
+      </div>
+      <div class="mb-2 mt-3 col-3">
+        <label  class="form-label">To</label>
+        <input type="date" id="searchTo" style="width: 100%;" class="form-control" onchange="searchByDate()">
+      </div>
+      <!-- 📁 Download Buttons -->
+      <div class="mb-2 mt-3">
+        <div class="row g-2 align-items-center">
+          <div class="col-12">
+            <label  class="form-label" style="color: white;">Clear</label>
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary w-100" onclick="clearField()">Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 📁 Download Buttons -->
+      <div class="mb-2 mt-3">
+        <div class="row g-2 align-items-center">
+          <div class="col-12">
+            <label  class="form-label">Download</label>
+            <div class="d-flex gap-2">
+              <button class="btn btn-success w-100" onclick="downloadExcel()">Excel</button>
+              <button class="btn btn-secondary w-100" onclick="downloadPDF()">PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="table-container table-responsive col-12">
+        <table class="table table-bordered table-sm" id="checkInTable">
+          <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Purpose</th>
+            <th>Whom To Meet</th>
+            <th>Created At</th>
+            <th hidden="hidden">User Id</th>
+          </tr>
+          </thead>
+          <tbody id="tableBody">
+          <tr th:each="checkInDetails : ${checkInDetails}">
+            <td th:text="${checkInDetails.checkInId}"></td>
+            <td th:text="${checkInDetails.name}"></td>
+            <td th:text="${checkInDetails.phnoTemp}"></td>
+            <td th:text="${checkInDetails.purpose}"></td>
+            <td th:text="${checkInDetails.whomeTo}"></td>
+            <td th:text="${checkInDetails.createdAt}"></td>
+            <td th:text="${checkInDetails.userId}" hidden="hidden"></td>
+          </tr>
+          </tbody>
+        </table>
+        <!-- Pagination Controls -->
+      </div>
+      <nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item" id="prevBtn"><a class="page-link" href="#"><i class="fa-solid fa-left-long"></i></a></li>
+          <li class="page-item" id="nextBtn"><a class="page-link" href="#"><i class="fa-solid fa-right-long"></i></a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+<script src="/js/pagination.js"></script>
+<script src="/js/search.js"></script>
+<script src="/js/pdfExcel.js"></script>
+<!-- ✅ jsPDF for PDF generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+<!-- ✅ SheetJS for Excel generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
